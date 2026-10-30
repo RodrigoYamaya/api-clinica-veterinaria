@@ -4,7 +4,9 @@ import com.ibmr.sdm.api_clinica.Exceptions.RecursoNaoEncontradoException;
 import com.ibmr.sdm.api_clinica.mapper.EnderecoMapper;
 import com.ibmr.sdm.api_clinica.model.dto.EnderecoRequestDto;
 import com.ibmr.sdm.api_clinica.model.dto.EnderecoResponseDto;
+import com.ibmr.sdm.api_clinica.model.dto.EspecieResponseDto;
 import com.ibmr.sdm.api_clinica.model.entities.Endereco;
+import com.ibmr.sdm.api_clinica.model.entities.Especie;
 import com.ibmr.sdm.api_clinica.repository.EnderecoRepository;
 import jakarta.transaction.Transactional;
 
@@ -25,7 +27,13 @@ public class EnderecoService {
         this.enderecoMapper = enderecoMapper;
     }
 
-    public List<EnderecoResponseDto> listarEnderecp() {
+    public EnderecoResponseDto buscarPorId(long id) {
+        Endereco endereco = enderecoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Endereco com ID " + id + " não encontrada"));
+        return enderecoMapper.toDto(endereco);
+    }
+
+    public List<EnderecoResponseDto> listarEndereco() {
         return enderecoRepository.findAll()
                 .stream()
                 .map(enderecoMapper::toDto)
