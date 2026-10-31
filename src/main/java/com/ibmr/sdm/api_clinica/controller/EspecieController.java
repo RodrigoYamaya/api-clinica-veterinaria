@@ -1,7 +1,6 @@
 package com.ibmr.sdm.api_clinica.controller;
 
-import com.ibmr.sdm.api_clinica.model.dto.EnderecoRequestDto;
-import com.ibmr.sdm.api_clinica.model.dto.EnderecoResponseDto;
+
 import com.ibmr.sdm.api_clinica.model.dto.EspecieRequestDto;
 import com.ibmr.sdm.api_clinica.model.dto.EspecieResponseDto;
 import com.ibmr.sdm.api_clinica.service.EspecieService;
