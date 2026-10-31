@@ -49,5 +49,5 @@ public class TutorController {
         TutorResponseDto tutorUpdate = tutorService.update(tutorDto, id);
         return ResponseEntity.status(HttpStatus.OK).body(tutorUpdate);
     }
-    
+
 }

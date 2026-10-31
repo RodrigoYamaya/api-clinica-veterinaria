@@ -46,11 +46,12 @@ public class TutorService {
             throw new IllegalArgumentException("Já existe um tutor cadastrado com o CPF: " + tutorDto.cpf());
         }
 
-        if (!enderecoRepository.existsById(tutorDto.enderecoId())) {
-            throw new RecursoNaoEncontradoException("Endereço com ID " + tutorDto.enderecoId() + " não encontrado");
-        }
+        Endereco endereco = enderecoRepository.findById(tutorDto.enderecoId())
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Endereço com ID " + tutorDto.enderecoId() + " não encontrado"));
+
 
         Tutor tutor = tutorMapper.toEntity(tutorDto);
+        tutor.setEndereco(endereco);
         Tutor tutorSave = tutorRepository.save(tutor);
         return tutorMapper.toDto(tutorSave);
     }
