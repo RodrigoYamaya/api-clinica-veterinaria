@@ -42,7 +42,6 @@ public class RacaService {
 
     @Transactional
     public RacaResponseDto cadastrar(RacaRequestDto racaDto) {
-        // Busca a entidade completa no banco em vez de apenas verificar se existe
         Especie especie = especieRepository.findById(racaDto.especieId())
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Espécie com ID " + racaDto.especieId() + " não encontrada"));        Raca raca = racaMapper.toEntity(racaDto);
         raca.setEspecie(especie);
