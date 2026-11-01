@@ -21,13 +21,13 @@ public class Veterinario {
     @Column(nullable = false, length = 150)
     private String nomeCompleto;
 
-    @Column(nullable = false, unique = true, length = 11)
+    @Column(nullable = false, unique = true, length = 11, columnDefinition = "CHAR(11)")
     private String cpf;
 
     @Column(nullable = false, length = 15)
     private String crmvNumero;
 
-    @Column(nullable = false, length = 2)
+    @Column(nullable = false, length = 2, columnDefinition = "CHAR(2)")
     private String crmvUf;
 
     @Column(nullable = false, unique = true, length = 150)
