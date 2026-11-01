@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -25,10 +26,11 @@ public class Animal {
 
     private LocalDate dataNascimento;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private Sexo sexo;
 
-    private Double peso;
+    private BigDecimal pesoAtual;
 
     @Column(length = 50)
     private String cor;
@@ -48,13 +50,5 @@ public class Animal {
     @Enumerated(EnumType.STRING)
     private Situacao situacao = Situacao.ATIVO;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime dataCadastro;
 
-    @PrePersist
-    public void prePersist() {
-        if (this.dataCadastro == null) {
-            this.dataCadastro = LocalDateTime.now();
-        }
-    }
 }

@@ -18,29 +18,46 @@ public class Veterinario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 150)
     private String nomeCompleto;
 
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
 
-    @Column(nullable = false, unique = true, length = 20)
-    private String crmv;
+    @Column(nullable = false, length = 15)
+    private String crmvNumero;
 
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = false, length = 2)
+    private String crmvUf;
+
+    @Column(nullable = false, unique = true, length = 150)
     private String email;
 
-    @Column(nullable = false, length = 15)
+    @Column(length = 20)
     private String telefone;
 
     @Column(nullable = false)
-    private String senha;
+    private String senhaHash;
 
-    @Enumerated(EnumType.STRING)
-    private Situacao situacao = Situacao.ATIVO;
+    @Column(nullable = false)
+    private Boolean senhaConfirmada = false;
+
+    private LocalDateTime dataConfirmacaoSenha;
+
+    @Column(length = 64)
+    private String codigoConfirmacao;
+
+
+    private LocalDateTime codigoExpiraEm;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime dataCadastro;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Situacao situacao = Situacao.ATIVO;
+
+    private LocalDateTime ultimoAcesso;
 
     @PrePersist
     public void prePersist() {
@@ -50,75 +67,4 @@ public class Veterinario {
     }
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNomeCompleto() {
-        return nomeCompleto;
-    }
-
-    public void setNomeCompleto(String nomeCompleto) {
-        this.nomeCompleto = nomeCompleto;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getCrmv() {
-        return crmv;
-    }
-
-    public void setCrmv(String crmv) {
-        this.crmv = crmv;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public Situacao getSituacao() {
-        return situacao;
-    }
-
-    public void setSituacao(Situacao situacao) {
-        this.situacao = situacao;
-    }
-
-    public LocalDateTime getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(LocalDateTime dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
 }
