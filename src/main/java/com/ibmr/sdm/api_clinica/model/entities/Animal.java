@@ -23,6 +23,7 @@ public class Animal {
     private String nome;
 
     private LocalDate dataNascimento;
+    private Integer idadeEstimadaMeses;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
