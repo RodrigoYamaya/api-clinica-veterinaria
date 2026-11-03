@@ -46,8 +46,7 @@ public class VeterinarioService {
         }
 
         Veterinario veterinario = veterinarioMapper.toEntity(veterinarioDto);
-//        veterinario.setSenhaHash(passwordEncoder.encode(veterinarioDto.senha()));
-
+        veterinario.setSenhaHash(veterinarioDto.senha());
         Veterinario veterinarioSalvo = veterinarioRepository.save(veterinario);
         return veterinarioMapper.toDto(veterinarioSalvo);
     }
@@ -76,10 +75,10 @@ public class VeterinarioService {
         veterinario.setEmail(veterinarioDto.email());
         veterinario.setTelefone(veterinarioDto.telefone());
 
-        // Se a requisição enviar uma nova senha, nós a atualizamos. Se não, mantemos a antiga.Mas opcional ainda,devemos focar em outras regras que não a prioridade.
-//        if (veterinarioDto.senha() != null && !veterinarioDto.senha().isBlank()) {
-//            veterinario.setSenhaHash(passwordEncoder.encode(veterinarioDto.senha()));
-//        }
+         //Se a requisição enviar uma nova senha, nós a atualizamos. Se não, mantemos a antiga.Mas opcional ainda,devemos focar em outras regras que não a prioridade.
+        if (veterinarioDto.senha() != null && !veterinarioDto.senha().isBlank()) {
+            veterinario.setSenhaHash(veterinarioDto.senha());
+        }
 
         Veterinario veterinarioUpdate = veterinarioRepository.save(veterinario);
         return veterinarioMapper.toDto(veterinarioUpdate);

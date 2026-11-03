@@ -1,5 +1,6 @@
 package com.ibmr.sdm.api_clinica.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ibmr.sdm.api_clinica.model.enums.Sexo;
 import com.ibmr.sdm.api_clinica.model.enums.Situacao;
 import jakarta.persistence.*;
@@ -22,6 +23,7 @@ public class Animal {
     @Column(nullable = false, length = 100)
     private String nome;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dataNascimento;
     private Integer idadeEstimadaMeses;
 
