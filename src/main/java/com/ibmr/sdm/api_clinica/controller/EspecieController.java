@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/especies")
+@RequestMapping("/api/especies")
 @CrossOrigin(origins = "*")
 public class EspecieController {
 
