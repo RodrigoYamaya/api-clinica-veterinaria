@@ -9,8 +9,5 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface EnderecoMapper {
 
-    @Mapping(target = "id", ignore = true)
-    Endereco  toEntity(EnderecoRequestDto dto);
-
     EnderecoResponseDto toDto(Endereco entity);
 }
