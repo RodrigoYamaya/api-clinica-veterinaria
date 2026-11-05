@@ -75,7 +75,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = "Ocorreu um erro de integridade de dados. Um registro único já está cadastrado ou há violação de chave.";
         String msg = ex.getMostSpecificCause().getMessage().toLowerCase();
 
-        // Adaptado para o contexto de clínica veterinária
         if (msg.contains("crmv")) {
             detail = "Este CRMV já está cadastrado no sistema!";
         } else if (msg.contains("cpf")) {
@@ -103,6 +102,21 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
+
+    // CAPTURA ERROS DE REGRA DE NEGÓCIO (Como a falta da vacina ou Idempotência repetida)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ProblemType problemType = ProblemType.DADOS_INVALIDOS;
+        String detail = ex.getMessage();
+
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(detail)
+                .build();
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
 
     private Problem.ProblemBuilder createProblemBuilder(HttpStatusCode status, ProblemType problemType, String detail) {
         return Problem.builder()

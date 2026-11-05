@@ -5,6 +5,7 @@ import com.ibmr.sdm.api_clinica.mapper.IntegracaoGovernoMapper;
 import com.ibmr.sdm.api_clinica.model.dto.IntegracaoGovernoRequestDto;
 import com.ibmr.sdm.api_clinica.model.dto.IntegracaoGovernoResponseDto;
 import com.ibmr.sdm.api_clinica.model.entities.IntegracaoGoverno;
+import com.ibmr.sdm.api_clinica.model.enums.TipoOperacaoIntegracao;
 import com.ibmr.sdm.api_clinica.repository.AnimalRepository;
 import com.ibmr.sdm.api_clinica.repository.IntegracaoGovernoRepository;
 import com.ibmr.sdm.api_clinica.repository.VacinaRepository;
@@ -33,17 +34,23 @@ public class IntegracaoGovernoService {
 
     @Transactional
     public IntegracaoGovernoResponseDto solicitarIntegracao(IntegracaoGovernoRequestDto dto) {
-        // 1. Aqui vai Validação de Idempotência (Mitigação de Erros TMR)
+
+        //  o ID da vacina é obrigatório! Se for para VACINA- ANTIRRABICA
+        if (dto.tipoOperacao() == TipoOperacaoIntegracao.VACINA_ANTIRRABICA && dto.vacinaId() == null) {
+            throw new IllegalArgumentException("Para a operação VACINA_ANTIRRABICA, o ID da vacina é obrigatório.");
+        }
+
+        // 2 Aqui vai Validação de Idempotência (Mitigação de Erros TMR)
         if (integracaoRepository.existsByChaveIdempotencia(dto.chaveIdempotencia())) {
             throw new IllegalArgumentException("Já existe uma requisição processada com esta chave de idempotência.");
         }
 
-        // 2.Aqui vai Validar Existência do Animal
+        // 3.Aqui vai Validar Existência do Animal
         if (!animalRepository.existsById(dto.animalId())) {
             throw new RecursoNaoEncontradoException("Animal com ID " + dto.animalId() + " não encontrado");
         }
 
-        // 3. Aqui vai Validar Existência da Vacina (Se o ID foi informado no JSON)
+        // 4. Aqui vai Validar Existência da Vacina (Se o ID foi informado no JSON)
         if (dto.vacinaId() != null && !vacinaRepository.existsById(dto.vacinaId())) {
             throw new RecursoNaoEncontradoException("Vacina com ID " + dto.vacinaId() + " não encontrada");
         }
