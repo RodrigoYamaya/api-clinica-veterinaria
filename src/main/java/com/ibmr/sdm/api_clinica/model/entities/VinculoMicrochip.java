@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -25,10 +25,16 @@ public class VinculoMicrochip {
     @JoinColumn(name = "veterinario_id", nullable = false)
     private Veterinario veterinario;
 
-    @Column(name = "codigo_microchip", nullable = false)
+    @Column(name = "codigo_microchip", nullable = false, unique = true)
     private String codigoMicrochip;
 
-    @Column(name = "data_vinculo", nullable = false)
-    private LocalD= "ativo", nullable = false)
-    private Boolean ativo = true;
+    @Column(name = "data_vinculo", nullable = false, updatable = false)
+    private LocalDateTime dataVinculo;
+
+    @Column(name = "data_fim")
+    private LocalDateTime dataFim;
+
+    @Column(name = "motivo_encerramento")
+    private String motivoEncerramento;
 }
+
