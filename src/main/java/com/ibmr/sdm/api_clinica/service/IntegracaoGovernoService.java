@@ -51,8 +51,14 @@ public class IntegracaoGovernoService {
         }
 
         // 4. Aqui vai Validar Existência da Vacina (Se o ID foi informado no JSON)
-        if (dto.vacinaId() != null && !vacinaRepository.existsById(dto.vacinaId())) {
-            throw new RecursoNaoEncontradoException("Vacina com ID " + dto.vacinaId() + " não encontrada");
+        if (dto.vacinaId() != null) {
+            var vacina = vacinaRepository.findById(dto.vacinaId())
+                    .orElseThrow(() -> new RecursoNaoEncontradoException("Vacina com ID " + dto.vacinaId() + " não encontrada"));
+
+            //   Se a operação é de antirrábica, a vacina tem que ter o boolean true!
+            if (dto.tipoOperacao() == TipoOperacaoIntegracao.VACINA_ANTIRRABICA && !vacina.getAntirrabica()) {
+                throw new IllegalArgumentException("Operação negada: A vacina informada (ID " + dto.vacinaId() + ") não está classificada como antirrábica no sistema.");
+            }
         }
 
         IntegracaoGoverno integracao = integracaoMapper.toEntity(dto);
