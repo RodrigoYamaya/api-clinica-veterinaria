@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -92,14 +93,21 @@ public class VeterinarioService {
         Veterinario vet = veterinarioRepository.findByEmail(request.email())
                 .orElseThrow(() -> new RegraDeNegocioException("E-mail ou senha inválidos."));
 
-        // 2. Aqui iremos Compara a senha (focamos na simplicidade, sem autenticação a principio)
-        if (!vet.getSenhaHash().equals(request.senha())) {
-            throw new RegraDeNegocioException("E-mail ou senha inválidos."); // Mesma mensagem por segurança
+        if (!request.senha().equals(vet.getSenhaHash())) {
+            throw new RegraDeNegocioException("E-mail ou senha inválidos.");
         }
 
-        if ("INATIVO".equals(vet.getSituacao().name())) {
+        if (vet.getSituacao() != null && "INATIVO".equals(vet.getSituacao().name())) {
             throw new RegraDeNegocioException("Veterinário inativo no sistema.");
         }
+
+        if (vet.getSenhaConfirmada() == null || !vet.getSenhaConfirmada()) {
+            throw new RegraDeNegocioException("Acesso negado. É necessário confirmar a senha.");
+        }
+
+        vet.setUltimoAcesso(LocalDateTime.now());
+        veterinarioRepository.save(vet);
+
         return veterinarioMapper.toLoginResponseDto(vet);
     }
 }
