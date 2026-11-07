@@ -1,6 +1,7 @@
 package com.ibmr.sdm.api_clinica.service;
 
 import com.ibmr.sdm.api_clinica.Exceptions.RecursoNaoEncontradoException;
+import com.ibmr.sdm.api_clinica.Exceptions.RegraDeNegocioException;
 import com.ibmr.sdm.api_clinica.mapper.AnimalMapper;
 import com.ibmr.sdm.api_clinica.model.dto.AnimalRequestDto;
 import com.ibmr.sdm.api_clinica.model.dto.AnimalResponseDto;
@@ -64,6 +65,11 @@ public class AnimalService {
         if (animalDto.racaId() != null) {
             raca = racaRepository.findById(animalDto.racaId())
                     .orElseThrow(() -> new RecursoNaoEncontradoException("Raça com ID " + animalDto.racaId() + " não encontrada"));
+
+            //verificar se raça que foi definida que realmente pertence a "especie",  que foi definida pelo escopo do professor
+            if (!raca.getEspecie().getId().equals(especie.getId())) {
+                throw new RegraDeNegocioException("A raça selecionada não é compatível com a espécie informada.");
+            }
         }
 
         Animal animal = animalMapper.toEntity(animalDto, tutor, especie, raca);
