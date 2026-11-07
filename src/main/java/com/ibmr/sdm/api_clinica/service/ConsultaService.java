@@ -44,6 +44,12 @@ public class ConsultaService {
                 .toList();
     }
 
+    public List<ConsultaResponseDto> listarPorAnimalId(Long animalId) {
+        return consultaRepository.findByAnimalId(animalId).stream()
+                .map(consultaMapper::toDto)
+                .toList();
+    }
+
     public ConsultaResponseDto buscarPorId(Long id) {
         Consulta consulta = consultaRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Consulta com ID " + id + " não encontrada"));

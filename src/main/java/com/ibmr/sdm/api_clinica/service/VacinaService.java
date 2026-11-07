@@ -44,6 +44,12 @@ public class VacinaService {
                 .toList();
     }
 
+    public List<VacinaResponseDto> listarPorVacinaId(Long vacinaId) {
+        return vacinaRepository.findByAnimalId(vacinaId).stream()
+                .map(vacinaMapper::toDto)
+                .toList();
+    }
+
     public VacinaResponseDto buscarPorId(Long id) {
         Vacina vacina = vacinaRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Vacina com ID " + id + " não encontrada"));
