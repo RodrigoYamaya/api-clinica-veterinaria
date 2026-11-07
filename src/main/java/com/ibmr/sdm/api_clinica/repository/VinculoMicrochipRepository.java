@@ -11,4 +11,6 @@ public interface VinculoMicrochipRepository extends JpaRepository<VinculoMicroch
     Optional<VinculoMicrochip> findByAnimalIdAndDataFimIsNull(Long animalId);
 
     List<VinculoMicrochip> findAllByAnimalIdOrderByDataVinculoDesc(Long animalId);
+
+    boolean existsByCodigoMicrochipAndDataFimIsNull(String codigoMicrochip);
 }

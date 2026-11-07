@@ -1,6 +1,7 @@
 package com.ibmr.sdm.api_clinica.service;
 
 import com.ibmr.sdm.api_clinica.Exceptions.RecursoNaoEncontradoException;
+import com.ibmr.sdm.api_clinica.Exceptions.RegraDeNegocioException;
 import com.ibmr.sdm.api_clinica.mapper.VinculoMicrochipMapper;
 import com.ibmr.sdm.api_clinica.model.dto.VinculoMicrochipRequestDto;
 import com.ibmr.sdm.api_clinica.model.dto.VinculoMicrochipResponseDto;
@@ -36,20 +37,23 @@ public class VinculoMicrochipService {
 
     @Transactional
     public VinculoMicrochipResponseDto vincularMicrochip(Long animalId, VinculoMicrochipRequestDto dto) {
+
+        if (microchipRepository.existsByCodigoMicrochipAndDataFimIsNull(dto.codigoMicrochip())) {
+            throw new RegraDeNegocioException("Este código de microchip RFID já está vinculado a um animal ativo no sistema.");
+        }
+
         Animal animal = animalRepository.findById(animalId)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Animal com ID " + animalId + " não encontrado"));
 
         Veterinario veterinario = veterinarioRepository.findById(dto.veterinarioId())
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Veterinário com ID " + dto.veterinarioId() + " não encontrado"));
 
-        // Regra de escopo defnido pelo professor: Encerra o chip ativo atual (se existir)
         microchipRepository.findByAnimalIdAndDataFimIsNull(animalId).ifPresent(chipAntigo -> {
             chipAntigo.setDataFim(LocalDateTime.now());
             chipAntigo.setMotivoEncerramento("Substituição por novo microchip");
-            microchipRepository.save(chipAntigo);
+            microchipRepository.saveAndFlush(chipAntigo);
         });
 
-        // Cria o novo vínculo de chip, escopo defnido
         VinculoMicrochip novoChip = microchipMapper.toEntity(dto);
         novoChip.setAnimal(animal);
         novoChip.setVeterinario(veterinario);
