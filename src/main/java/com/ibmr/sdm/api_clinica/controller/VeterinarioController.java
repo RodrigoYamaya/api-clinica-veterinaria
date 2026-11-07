@@ -1,6 +1,8 @@
 package com.ibmr.sdm.api_clinica.controller;
 
 
+import com.ibmr.sdm.api_clinica.model.dto.LoginRequestDto;
+import com.ibmr.sdm.api_clinica.model.dto.LoginResponseDto;
 import com.ibmr.sdm.api_clinica.model.dto.VeterinarioRequestDto;
 import com.ibmr.sdm.api_clinica.model.dto.VeterinarioResponseDto;
 import com.ibmr.sdm.api_clinica.service.VeterinarioService;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/veterinarios")
+@RequestMapping("/api/veterinarios")
 @CrossOrigin(origins = "*")
 public class VeterinarioController {
 
@@ -48,6 +50,12 @@ public class VeterinarioController {
     public ResponseEntity<VeterinarioResponseDto> updateVeterinario(@PathVariable(value = "id") long id, @RequestBody @Valid VeterinarioRequestDto veterinarioDto) {
         VeterinarioResponseDto veterinarioUpdate = veterinarioService.update(veterinarioDto, id);
         return ResponseEntity.status(HttpStatus.OK).body(veterinarioUpdate);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+        LoginResponseDto login = veterinarioService.realizarLogin(loginRequestDto);
+        return ResponseEntity.ok(login);
     }
 
 }

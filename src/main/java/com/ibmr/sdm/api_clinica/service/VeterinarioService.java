@@ -1,7 +1,10 @@
 package com.ibmr.sdm.api_clinica.service;
 
 import com.ibmr.sdm.api_clinica.Exceptions.RecursoNaoEncontradoException;
+import com.ibmr.sdm.api_clinica.Exceptions.RegraDeNegocioException;
 import com.ibmr.sdm.api_clinica.mapper.VeterinarioMapper;
+import com.ibmr.sdm.api_clinica.model.dto.LoginRequestDto;
+import com.ibmr.sdm.api_clinica.model.dto.LoginResponseDto;
 import com.ibmr.sdm.api_clinica.model.dto.VeterinarioRequestDto;
 import com.ibmr.sdm.api_clinica.model.dto.VeterinarioResponseDto;
 import com.ibmr.sdm.api_clinica.model.entities.Veterinario;
@@ -75,12 +78,28 @@ public class VeterinarioService {
         veterinario.setEmail(veterinarioDto.email());
         veterinario.setTelefone(veterinarioDto.telefone());
 
-         //Se a requisição enviar uma nova senha, nós a atualizamos. Se não, mantemos a antiga.Mas opcional ainda,devemos focar em outras regras que não a prioridade.
         if (veterinarioDto.senha() != null && !veterinarioDto.senha().isBlank()) {
             veterinario.setSenhaHash(veterinarioDto.senha());
         }
 
         Veterinario veterinarioUpdate = veterinarioRepository.save(veterinario);
         return veterinarioMapper.toDto(veterinarioUpdate);
+    }
+
+
+    @Transactional
+    public LoginResponseDto realizarLogin(LoginRequestDto request) {
+        Veterinario vet = veterinarioRepository.findByEmail(request.email())
+                .orElseThrow(() -> new RegraDeNegocioException("E-mail ou senha inválidos."));
+
+        // 2. Aqui iremos Compara a senha (focamos na simplicidade, sem autenticação a principio)
+        if (!vet.getSenhaHash().equals(request.senha())) {
+            throw new RegraDeNegocioException("E-mail ou senha inválidos."); // Mesma mensagem por segurança
+        }
+
+        if ("INATIVO".equals(vet.getSituacao().name())) {
+            throw new RegraDeNegocioException("Veterinário inativo no sistema.");
+        }
+        return veterinarioMapper.toLoginResponseDto(vet);
     }
 }
