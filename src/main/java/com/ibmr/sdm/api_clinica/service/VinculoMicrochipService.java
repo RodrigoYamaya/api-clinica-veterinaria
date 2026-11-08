@@ -47,6 +47,11 @@ public class VinculoMicrochipService {
 
         Veterinario veterinario = veterinarioRepository.findById(dto.veterinarioId())
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Veterinário com ID " + dto.veterinarioId() + " não encontrado"));
+        
+        // Validação para verificar a situação do veterinário. Veterinários com o status INATIVO não podem realizar o vínculo de microchip no animal.
+        if (veterinario.getSituacao() != null && "INATIVO".equals(veterinario.getSituacao().name())) {
+            throw new RegraDeNegocioException("O vínculo do microchip deve ser realizado por um veterinário ativo e autorizado.");
+        }
 
         microchipRepository.findByAnimalIdAndDataFimIsNull(animalId).ifPresent(chipAntigo -> {
             chipAntigo.setDataFim(LocalDateTime.now());
