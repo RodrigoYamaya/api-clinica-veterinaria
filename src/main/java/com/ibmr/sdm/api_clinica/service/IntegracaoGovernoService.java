@@ -46,7 +46,7 @@ public class IntegracaoGovernoService {
     @Transactional
     public IntegracaoGovernoResponseDto solicitarIntegracao(IntegracaoGovernoRequestDto dto) {
 
-        // 1. Validações de negócio do PDF
+        // validações especies da vacina Validações antirrabica;
         if (dto.tipoOperacao() == TipoOperacaoIntegracao.VACINA_ANTIRRABICA && dto.vacinaId() == null) {
             throw new IllegalArgumentException("Para a operação VACINA_ANTIRRABICA, o ID da vacina é obrigatório.");
         }
@@ -113,7 +113,7 @@ public class IntegracaoGovernoService {
         return integracaoMapper.toDto(integracaoSalva);
     }
 
-    // 5. AQUI  MÉTODO ADICIONAL OBRIGATÓRIO PARA O TESTE 15 (REENVIO DE PENDENTES) QUE FOI DEFINIDA PELO ESCOPO TRABALHO; regra irritante
+    //AQUI  MÉTODO ADICIONAL OBRIGATÓRIO PARA O TESTE 15 (REENVIO DE PENDENTES) QUE FOI DEFINIDA PELO ESCOPO TRABALHO; regra irritante
     @Transactional
     public void reprocessarIntegracoesPendentes() {
         // Buscaremos todas as integrações que falharam na comunicação anterior;
