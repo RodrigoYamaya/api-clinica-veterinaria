@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#176b5b"><title>VetCare | Gestão Veterinária</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#inicio"><span class="brand-mark">✚</span><span>VetCare<small>GESTÃO VETERINÁRIA</small></span></a>
+    <div class="side-label">MENU PRINCIPAL</div>
+    <nav id="navigation">
+      <button class="nav-item active" data-page="inicio"><span>▦</span> Visão geral</button>
+      <button class="nav-item" data-page="animais"><span>🐾</span> Animais</button>
+      <button class="nav-item" data-page="tutores"><span>♙</span> Tutores</button>
+      <button class="nav-item" data-page="veterinarios"><span>⚕</span> Veterinários</button>
+      <button class="nav-item" data-page="consultas"><span>▣</span> Consultas</button>
+      <button class="nav-item" data-page="vacinas"><span>♡</span> Vacinas</button>
+      <button class="nav-item" data-page="integracoes"><span>⇄</span> Integração governo</button>
+      <button class="nav-item" data-page="cadastros"><span>☷</span> Espécies e raças</button>
+    </nav>
+    <div class="sidebar-bottom"><div class="api-indicator"><i id="apiDot"></i><span id="apiStatus">Verificando API...</span></div><small>VetCare • Projeto acadêmico</small></div>
+  </aside>
+  <main class="main-area">
+    <header class="topbar"><button class="mobile-menu" id="mobileMenu">☰</button><div><span class="eyebrow">SISTEMA DE GESTÃO</span><h1 id="pageTitle">Visão geral</h1></div><div class="top-actions"><span class="today" id="todayLabel"></span><div class="avatar">VC</div></div></header>
+    <section class="content" id="pageContent"><div class="loading">Carregando dados...</div></section>
+  </main>
+</div>
+<div class="toast-region" id="toastRegion" aria-live="polite"></div>
+<dialog id="formDialog" class="modal"><form id="entityForm" method="dialog"><div class="modal-head"><div><span class="eyebrow" id="modalEyebrow">CADASTRO</span><h2 id="modalTitle">Novo registro</h2></div><button type="button" class="icon-button" id="closeModal">✕</button></div><div id="modalFields" class="form-grid"></div><div class="modal-actions"><button type="button" class="btn btn-light" id="cancelModal">Cancelar</button><button type="submit" class="btn btn-primary" id="saveButton">Salvar registro</button></div></form></dialog>
+<dialog id="historyDialog" class="modal"><div class="modal-head"><div><span class="eyebrow">RASTREABILIDADE</span><h2>Histórico de microchip</h2></div><button class="icon-button" id="closeHistory">✕</button></div><div id="historyContent"></div></dialog>
+<script src="app.js"></script>
+</body></html>
