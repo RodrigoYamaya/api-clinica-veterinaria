@@ -9,6 +9,11 @@ public record GovernoRequestDto(
         String raca,
         String cpfTutor,
         String nomeTutor,
-        LocalDate dataVacinaAntirrabica
+        LocalDate dataVacinaAntirrabica,
+        String nomeVacina,
+        String fabricante,
+        String numeroLote,
+        String nomeVeterinario,
+        String crmvVeterinario
 ) {
 }

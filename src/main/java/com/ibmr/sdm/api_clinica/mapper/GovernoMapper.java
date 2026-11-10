@@ -13,8 +13,14 @@ public interface GovernoMapper {
     @Mapping(target = "especie", source = "animal.especie.nome")
     @Mapping(target = "cpfTutor", source = "animal.tutor.cpf")
     @Mapping(target = "nomeTutor", source = "animal.tutor.nomeCompleto")
-    @Mapping(target = "dataVacinaAntirrabica", source = "vacina.dataAplicacao")
     @Mapping(target = "raca", expression = "java(animal.getRaca() != null ? animal.getRaca().getNome() : \"SRD\")")
+
+    @Mapping(target = "dataVacinaAntirrabica", source = "vacina.dataAplicacao")
+    @Mapping(target = "nomeVacina", source = "vacina.nomeVacina")
+    @Mapping(target = "fabricante", source = "vacina.fabricante")
+    @Mapping(target = "numeroLote", source = "vacina.numeroLote") // Correção aplicada aqui
+
+    @Mapping(target = "nomeVeterinario", source = "vacina.veterinario.nomeCompleto")
+    @Mapping(target = "crmvVeterinario", source = "vacina.veterinario.crmvNumero")
     GovernoRequestDto toRequestDto(Animal animal, Vacina vacina, String codigoMicrochip);
 }
-
