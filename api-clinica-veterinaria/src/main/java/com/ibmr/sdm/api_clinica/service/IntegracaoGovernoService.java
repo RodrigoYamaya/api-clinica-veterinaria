@@ -17,6 +17,7 @@ import com.ibmr.sdm.api_clinica.repository.IntegracaoGovernoRepository;
 import com.ibmr.sdm.api_clinica.repository.VacinaRepository;
 import com.ibmr.sdm.api_clinica.repository.VinculoMicrochipRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -88,7 +89,7 @@ public class IntegracaoGovernoService {
         integracao.setDataSolicitacao(LocalDateTime.now());
         integracao = integracaoRepository.saveAndFlush(integracao);
 
-        // 3. Montar o pacote de envio do Governo
+        //  Montar o pacote de envio do Governo
         GovernoRequestDto pacoteEnvio = governoMapper.toRequestDto(animal, vacina, codigoMicrochip);
 
         // 4. Fluxo de Comunicação Síncrona com tratamento de falhas distribuídas
@@ -114,6 +115,7 @@ public class IntegracaoGovernoService {
     }
 
     //AQUI  MÉTODO ADICIONAL OBRIGATÓRIO PARA O TESTE 15 (REENVIO DE PENDENTES) QUE FOI DEFINIDA PELO ESCOPO TRABALHO; regra irritante
+    @Scheduled(fixedDelay = 60000)// usaremos @Scheduled para executar de forma automatica reenvio do vacina antirrabica para api do governo; e caso falhe vai ficar pendente localmente e iniciarar o reenvio automatico;
     @Transactional
     public void reprocessarIntegracoesPendentes() {
         // Buscaremos todas as integrações que falharam na comunicação anterior;
