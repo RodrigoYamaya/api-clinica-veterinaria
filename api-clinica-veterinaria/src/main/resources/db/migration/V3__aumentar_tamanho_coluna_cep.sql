@@ -1,0 +1,1 @@
+ALTER TABLE endereco MODIFY cep VARCHAR(10);
