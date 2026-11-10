@@ -1,8 +1,0 @@
-package com.ibmr.sdm.api_clinica.model.enums;
-
-public enum SituacaoConsulta {
-    AGENDADA,
-    REALIZADA,
-    CANCELADA,
-    NAO_COMPARECEU
-}
