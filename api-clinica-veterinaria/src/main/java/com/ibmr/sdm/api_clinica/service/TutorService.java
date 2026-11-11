@@ -6,6 +6,7 @@ import com.ibmr.sdm.api_clinica.model.dto.TutorRequestDto;
 import com.ibmr.sdm.api_clinica.model.dto.TutorResponseDto;
 import com.ibmr.sdm.api_clinica.model.entities.Endereco;
 import com.ibmr.sdm.api_clinica.model.entities.Tutor;
+import com.ibmr.sdm.api_clinica.model.enums.Situacao;
 import com.ibmr.sdm.api_clinica.repository.EnderecoRepository;
 import com.ibmr.sdm.api_clinica.repository.TutorRepository;
 import jakarta.transaction.Transactional;
@@ -52,6 +53,7 @@ public class TutorService {
 
         Tutor tutor = tutorMapper.toEntity(tutorDto);
         tutor.setEndereco(endereco);
+        tutor.setSituacao(Situacao.ATIVO);
         Tutor tutorSave = tutorRepository.save(tutor);
         return tutorMapper.toDto(tutorSave);
     }

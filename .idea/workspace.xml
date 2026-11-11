@@ -5,12 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49c280f8-8426-4ffc-a97f-f0f08ee358e0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/api-clinica-veterinaria/src/main/java/com/ibmr/sdm/api_clinica/config/CorsConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-clinica-veterinaria/src/main/java/com/ibmr/sdm/api_clinica/service/TutorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-clinica-veterinaria/src/main/java/com/ibmr/sdm/api_clinica/service/TutorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front end/VetCare-Sistema/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/front end/VetCare-Sistema/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front end/login.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -34,6 +45,65 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="6.28317566105494E-201" />
+      <entry key="S30" value="4.206256236787894E-67" />
+      <entry key="S60" value="1.4689677961776724E-33" />
+      <entry key="M2" value="9.191328463418201E-17" />
+      <entry key="M5" value="1.122025736072209E-6" />
+      <entry key="M10" value="0.002592412873829854" />
+      <entry key="M15" value="0.0342849720632188" />
+      <entry key="M30" value="0.45350930508526444" />
+      <entry key="H1" value="1.6495231100708276" />
+      <entry key="H2" value="3.1459531309386013" />
+      <entry key="H4" value="4.344613072199482" />
+      <entry key="D1" value="5.685706925920757" />
+      <entry key="W1" value="5.954059039030848" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0" />
+      <entry key="S10" value="1.0" />
+      <entry key="S30" value="1.0" />
+      <entry key="S60" value="1.0" />
+      <entry key="M2" value="1.0000000000000002" />
+      <entry key="M5" value="1.0000014143890223" />
+      <entry key="M10" value="1.003144901179954" />
+      <entry key="M15" value="1.0410569885983394" />
+      <entry key="M30" value="1.536065003816535" />
+      <entry key="H1" value="2.937097470514499" />
+      <entry key="H2" value="4.682334093946535" />
+      <entry key="H4" value="6.077035762321605" />
+      <entry key="D1" value="7.635138857067001" />
+      <entry key="W1" value="7.946673584419551" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="3.5290526377744895E-10" />
+      <entry key="MS500" value="0.01286860964480583" />
+      <entry key="S2" value="0.33680839421642256" />
+      <entry key="S5" value="0.6470728272414268" />
+      <entry key="S10" value="0.8044083709419158" />
+      <entry key="S30" value="0.9300197979914203" />
+      <entry key="S60" value="0.9643753408250443" />
+      <entry key="M2" value="0.9820261406016872" />
+      <entry key="M5" value="0.9927738373214442" />
+      <entry key="M10" value="1.0021025344825987" />
+      <entry key="M15" value="1.0728046475139075" />
+      <entry key="M30" value="1.9875625030654829" />
+      <entry key="H1" value="4.584557815760317" />
+      <entry key="H2" value="7.826595553415591" />
+      <entry key="H4" value="10.420538725013262" />
+      <entry key="D1" value="13.320611505959855" />
+      <entry key="W1" value="13.90069774751419" />
+    </decayedShown>
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
@@ -43,29 +113,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.go.application.removed.from.services": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "Spring Boot.ApiClinicaApplication.executor": "Run",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "python.packages.toolwindow.project.migrated.to.right.top.v2": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.application.removed.from.services&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;Spring Boot.ApiClinicaApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;python.packages.toolwindow.project.migrated.to.right.top.v2&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="A3- Sistemas Distribuidos" />
@@ -111,6 +181,7 @@
       <updated>1794339244687</updated>
       <workItem from="1794339255044" duration="5326000" />
       <workItem from="1794354292621" duration="489000" />
+      <workItem from="1794356645477" duration="5843000" />
     </task>
     <servers />
   </component>

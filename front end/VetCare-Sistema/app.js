@@ -1,8 +1,8 @@
 /* VetCare - interface integrada à API Java/Spring Boot enviada no projeto. */
 const API_BASE = 'http://localhost:8081';
 const ENDPOINTS = {
-  animais:'/api/animais', tutores:'/api/tutores', veterinarios:'/veterinarios', consultas:'/api/consultas',
-  vacinas:'/api/vacinas', especies:'/api/especies', racas:'/api/racas', integracoes:'/api/integracoes-governo', enderecos:'/api/enderecos'
+  animais:'/api/animais', tutores:'/api/tutores', veterinarios:'/api/veterinarios', consultas:'/api/consultas',
+  vacinas:'/api/vacinas', especies:'/api/especies', racas:'/api/racas', integracoes:'/api/integracoes-governo', enderecos:'/api/enderecos',login: '/api/veterinarios/login'
 };
 const state = { page:'inicio', data:{}, editing:null, editingId:null, activeVeterinarianId:null };
 const $ = (s,root=document)=>root.querySelector(s);
