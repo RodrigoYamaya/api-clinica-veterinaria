@@ -1,5 +1,5 @@
 /* VetCare - interface integrada à API Java/Spring Boot enviada no projeto. */
-const API_BASE = 'http://localhost:8080';
+const API_BASE = 'http://localhost:8081';
 const ENDPOINTS = {
   animais:'/api/animais', tutores:'/api/tutores', veterinarios:'/veterinarios', consultas:'/api/consultas',
   vacinas:'/api/vacinas', especies:'/api/especies', racas:'/api/racas', integracoes:'/api/integracoes-governo', enderecos:'/api/enderecos'

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | VetCare</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #176b5b; --green2: #218675; --mint: #e8f4ef; --ink: #18332e;
+      --line: #e5ece9; --bg: #f5f8f6; --shadow: 0 12px 35px rgba(29,69,58,.07);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      display: grid; place-items: center; min-height: 100vh;
+    }
+    .login-card {
+      background: #fff; border: 1px solid var(--line);
+      border-radius: 17px; padding: 40px; width: min(400px, calc(100% - 40px));
+      box-shadow: var(--shadow); text-align: center;
+    }
+    .brand-mark {
+      width: 55px; height: 55px; border-radius: 15px; background: var(--green);
+      color: white; display: inline-grid; place-items: center; font-size: 32px;
+      margin-bottom: 20px;
+    }
+    h1 { font: 800 24px Manrope; margin: 0 0 5px; }
+    p { color: #71827e; font-size: 13px; margin: 0 0 25px; }
+    
+    .field { display: flex; flex-direction: column; gap: 6px; text-align: left; margin-bottom: 15px; }
+    .field label { font-size: 11px; font-weight: 700; color: #60736d; }
+    .field input {
+      padding: 12px; border: 1px solid #dfe8e3; border-radius: 8px;
+      background: #fff; font: 14px 'DM Sans'; color: var(--ink); outline: none;
+    }
+    .field input:focus { border-color: #74ad9e; box-shadow: 0 0 0 3px #e8f4ef; }
+    
+    .btn {
+      width: 100%; border: 0; border-radius: 9px; padding: 14px;
+      font: 700 14px 'DM Sans'; cursor: pointer; background: var(--green);
+      color: white; margin-top: 10px; transition: 0.2s;
+    }
+    .btn:hover { background: #105849; transform: translateY(-1px); }
+    .btn:disabled { background: #a9c9be; cursor: not-allowed; }
+    
+    .error-msg {
+      color: #c95b5b; background: #fff0ef; padding: 10px; border-radius: 8px;
+      font-size: 12px; font-weight: 600; margin-bottom: 15px; display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-card">
+    <div class="brand-mark">✚</div>
+    <h1>Acesso VetCare</h1>
+    <p>Área restrita para veterinários autorizados.</p>
+
+    <div id="errorBox" class="error-msg"></div>
+
+    <form id="loginForm">
+      <div class="field">
+        <label>E-mail institucional</label>
+        <input type="email" id="email" required placeholder="dr.exemplo@vetcare.com">
+      </div>
+      <div class="field">
+        <label>Senha de acesso</label>
+        <input type="password" id="senha" required placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn" id="loginBtn">Entrar no sistema</button>
+    </form>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:8081'; // Sua porta atual da Clínica
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const senha = document.getElementById('senha').value;
+      const btn = document.getElementById('loginBtn');
+      const errorBox = document.getElementById('errorBox');
+      
+      btn.disabled = true;
+      btn.textContent = 'Autenticando...';
+      errorBox.style.display = 'none';
+
+      try {
+        const response = await fetch(`${API_BASE}/api/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, senha })
+        });
+
+        if (!response.ok) {
+          throw new Error('E-mail ou senha incorretos, ou veterinário inativo.');
+        }
+
+        const data = await response.json();
+        
+        localStorage.setItem('vetcare_user', JSON.stringify(data));
+
+        window.location.href = 'index.html';
+        
+      } catch (err) {
+        errorBox.textContent = err.message;
+        errorBox.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Entrar no sistema';
+      }
+    });
+  </script>
+</body>
+</html>

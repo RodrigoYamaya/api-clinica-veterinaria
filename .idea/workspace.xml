@@ -5,19 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49c280f8-8426-4ffc-a97f-f0f08ee358e0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-clinica-veterinaria/src/main/java/com/ibmr/sdm/api_clinica/ApiClinicaApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-clinica-veterinaria/src/main/java/com/ibmr/sdm/api_clinica/ApiClinicaApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-clinica-veterinaria/src/main/java/com/ibmr/sdm/api_clinica/service/IntegracaoGovernoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-clinica-veterinaria/src/main/java/com/ibmr/sdm/api_clinica/service/IntegracaoGovernoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front end/VetCare-Sistema/vetcare-github/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front end/VetCare-Sistema/vetcare-github/frontend/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front end/VetCare-Sistema/vetcare-github/frontend/app.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front end/VetCare-Sistema/vetcare-github/frontend/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front end/VetCare-Sistema/vetcare-github/frontend/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,18 +15,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "RodrigoYamaya"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;RodrigoYamaya&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/RodrigoYamaya/api-clinica-veterinaria.git",
-    "accountId": "d2ec2c83-0057-4370-bf71-7c0d08c0380f"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/RodrigoYamaya/api-clinica-veterinaria.git&quot;,
+    &quot;accountId&quot;: &quot;d2ec2c83-0057-4370-bf71-7c0d08c0380f&quot;
   }
-}]]></component>
+}</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -46,10 +34,10 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="3Lvf0YZFqxEqv5g2Ak0txFxEFoc" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -63,6 +51,7 @@
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.go.application.removed.from.services": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
@@ -82,7 +71,7 @@
       <module name="A3- Sistemas Distribuidos" />
       <working_directory value="$PROJECT_DIR$" />
       <go_parameters value="-i" />
-      <kind />
+      <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
@@ -91,7 +80,7 @@
       <module name="A3- Sistemas Distribuidos" />
       <working_directory value="$PROJECT_DIR$" />
       <go_parameters value="-i" />
-      <kind />
+      <kind value="DIRECTORY" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
@@ -120,7 +109,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1794339244687</updated>
-      <workItem from="1794339255044" duration="4738000" />
+      <workItem from="1794339255044" duration="5326000" />
+      <workItem from="1794354292621" duration="489000" />
     </task>
     <servers />
   </component>
