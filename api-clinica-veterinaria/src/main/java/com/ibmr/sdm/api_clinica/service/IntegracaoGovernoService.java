@@ -1,9 +1,11 @@
 package com.ibmr.sdm.api_clinica.service;
 
 import com.ibmr.sdm.api_clinica.Exceptions.RecursoNaoEncontradoException;
+import com.ibmr.sdm.api_clinica.client.GovernoClient;
 import com.ibmr.sdm.api_clinica.mapper.GovernoMapper;
 import com.ibmr.sdm.api_clinica.mapper.IntegracaoGovernoMapper;
 import com.ibmr.sdm.api_clinica.model.dto.GovernoRequestDto;
+import com.ibmr.sdm.api_clinica.model.dto.GovernoResponseDto;
 import com.ibmr.sdm.api_clinica.model.dto.IntegracaoGovernoRequestDto;
 import com.ibmr.sdm.api_clinica.model.dto.IntegracaoGovernoResponseDto;
 import com.ibmr.sdm.api_clinica.model.entities.Animal;
@@ -16,6 +18,7 @@ import com.ibmr.sdm.api_clinica.repository.AnimalRepository;
 import com.ibmr.sdm.api_clinica.repository.IntegracaoGovernoRepository;
 import com.ibmr.sdm.api_clinica.repository.VacinaRepository;
 import com.ibmr.sdm.api_clinica.repository.VinculoMicrochipRepository;
+import feign.FeignException;
 import jakarta.transaction.Transactional;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -32,27 +35,32 @@ public class IntegracaoGovernoService {
     private final VacinaRepository vacinaRepository;
     private final VinculoMicrochipRepository microchipRepository;
     private final GovernoMapper governoMapper;
-    //private final GovernoClient governoClient;
+    private final GovernoClient governoClient; // Agora injetado!
 
-    //vai faltar adicionar construtor GovernoClient
-    public IntegracaoGovernoService(IntegracaoGovernoRepository integracaoRepository, IntegracaoGovernoMapper integracaoMapper, AnimalRepository animalRepository, VacinaRepository vacinaRepository, VinculoMicrochipRepository microchipRepository, GovernoMapper governoMapper) {
+    public IntegracaoGovernoService(
+            IntegracaoGovernoRepository integracaoRepository,
+            IntegracaoGovernoMapper integracaoMapper,
+            AnimalRepository animalRepository,
+            VacinaRepository vacinaRepository,
+            VinculoMicrochipRepository microchipRepository,
+            GovernoMapper governoMapper,
+            GovernoClient governoClient) { // Injetado no construtor
         this.integracaoRepository = integracaoRepository;
         this.integracaoMapper = integracaoMapper;
         this.animalRepository = animalRepository;
         this.vacinaRepository = vacinaRepository;
         this.microchipRepository = microchipRepository;
         this.governoMapper = governoMapper;
+        this.governoClient = governoClient;
     }
 
     @Transactional
     public IntegracaoGovernoResponseDto solicitarIntegracao(IntegracaoGovernoRequestDto dto) {
 
-        // validações especies da vacina Validações antirrabica;
         if (dto.tipoOperacao() == TipoOperacaoIntegracao.VACINA_ANTIRRABICA && dto.vacinaId() == null) {
             throw new IllegalArgumentException("Para a operação VACINA_ANTIRRABICA, o ID da vacina é obrigatório.");
         }
 
-        // Ajustaremos a Idempotência: Só barra se já tiver sido CONFIRMADA com sucesso no governo
         integracaoRepository.findByChaveIdempotencia(dto.chaveIdempotencia()).ifPresent(existing -> {
             if (existing.getSituacao() == SituacaoIntegracao.CONFIRMADA) {
                 throw new IllegalArgumentException("Já existe uma transação concluída com sucesso para esta chave de idempotência.");
@@ -75,38 +83,41 @@ public class IntegracaoGovernoService {
         String codigoMicrochip = microchipRepository.findByAnimalIdAndDataFimIsNull(animal.getId())
                 .map(VinculoMicrochip::getCodigoMicrochip).orElse(null);
 
-        // Aqui vamos verificar Regra Crítica: Registro antirrábico exige microchip obrigatoriamente
         if (dto.tipoOperacao() == TipoOperacaoIntegracao.VACINA_ANTIRRABICA && codigoMicrochip == null) {
             throw new IllegalArgumentException("Operação negada: O animal não possui um microchip RFID vinculado.");
         }
 
-        // Aqui vamos Registrar ou recuperar o histórico inicial (PENDENTE / ENVIADO)
         IntegracaoGoverno integracao = integracaoRepository.findByChaveIdempotencia(dto.chaveIdempotencia())
                 .orElseGet(() -> integracaoMapper.toEntity(dto));
 
         integracao.setSituacao(SituacaoIntegracao.ENVIADO);
-        integracao.setTentativas(integracao.getTentativas() + 1); // Incrementa a tentativa atual de envio
+        integracao.setTentativas(integracao.getTentativas() + 1);
         integracao.setDataSolicitacao(LocalDateTime.now());
         integracao = integracaoRepository.saveAndFlush(integracao);
 
-        //  Montar o pacote de envio do Governo
         GovernoRequestDto pacoteEnvio = governoMapper.toRequestDto(animal, vacina, codigoMicrochip);
 
-        // 4. Fluxo de Comunicação Síncrona com tratamento de falhas distribuídas
         try {
-            // Chamada Feign real  lembre-se (descomente quando a API do governo estiver pronta) aguardemos luiz feilpe e lucas finalziar api governo
-            // GovernoResponseDto response = governoClient.enviarDadosGoverno(pacoteEnvio);
+            GovernoResponseDto response;
 
-            // Simulação do Sucesso:
+            if (dto.tipoOperacao() == TipoOperacaoIntegracao.VACINA_ANTIRRABICA) {
+                response = governoClient.enviarVacinaAntirrabica(dto.chaveIdempotencia(), pacoteEnvio);
+            } else {
+                response = governoClient.atualizarAnimal(codigoMicrochip, pacoteEnvio);
+            }
+
             integracao.setSituacao(SituacaoIntegracao.CONFIRMADA);
-            // integracao.setProtocoloExterno(response.protocolo());
+            integracao.setProtocoloExterno(response.protocolo());
             integracao.setDataResposta(LocalDateTime.now());
             integracao.setMensagemErro(null);
 
-        } catch (Exception e) {
-            // Aqui vamos fazer Tratamento de Indisponibilidade/Timeout
+        } catch (FeignException e) {
             integracao.setSituacao(SituacaoIntegracao.FALHA);
-            integracao.setMensagemErro("Falha na comunicação com a API Governamental: " + e.getMessage());
+            integracao.setMensagemErro("Falha na comunicação: HTTP " + e.status() + " - Serviço indisponível");
+            integracao.setDataResposta(LocalDateTime.now());
+        } catch (Exception e) {
+            integracao.setSituacao(SituacaoIntegracao.FALHA);
+            integracao.setMensagemErro("Erro interno ao comunicar com API Governamental: " + e.getMessage());
             integracao.setDataResposta(LocalDateTime.now());
         }
 
@@ -114,18 +125,15 @@ public class IntegracaoGovernoService {
         return integracaoMapper.toDto(integracaoSalva);
     }
 
-    //AQUI  MÉTODO ADICIONAL OBRIGATÓRIO PARA O TESTE 15 (REENVIO DE PENDENTES) QUE FOI DEFINIDA PELO ESCOPO TRABALHO; regra irritante
-    @Scheduled(fixedDelay = 60000)// usaremos @Scheduled para executar de forma automatica reenvio do vacina antirrabica para api do governo; e caso falhe vai ficar pendente localmente e iniciarar o reenvio automatico;
+    @Scheduled(fixedDelay = 60000)
     @Transactional
     public void reprocessarIntegracoesPendentes() {
-        // Buscaremos todas as integrações que falharam na comunicação anterior;
         List<IntegracaoGoverno> falhas = integracaoRepository.findBySituacao(SituacaoIntegracao.FALHA);
 
         for (IntegracaoGoverno integracao : falhas) {
             try {
                 integracao.setTentativas(integracao.getTentativas() + 1);
 
-                // Aqui vai Recriar o pacote com os dados salvos na entidade;
                 String codigoMicrochip = microchipRepository.findByAnimalIdAndDataFimIsNull(integracao.getAnimal().getId())
                         .map(VinculoMicrochip::getCodigoMicrochip).orElse(null);
 
@@ -135,11 +143,16 @@ public class IntegracaoGovernoService {
                         codigoMicrochip
                 );
 
-                // Aqui vai Executa nova tentativa síncrona da api governo feita pelo luiz felipe
-                // GovernoResponseDto response = governoClient.enviarDadosGoverno(pacoteEnvio);
+                GovernoResponseDto response;
+
+                if (integracao.getTipoOperacao() == TipoOperacaoIntegracao.VACINA_ANTIRRABICA) {
+                    response = governoClient.enviarVacinaAntirrabica(integracao.getChaveIdempotencia(), pacoteEnvio);
+                } else {
+                    response = governoClient.atualizarAnimal(codigoMicrochip, pacoteEnvio);
+                }
 
                 integracao.setSituacao(SituacaoIntegracao.CONFIRMADA);
-                // integracao.setProtocoloExterno(response.protocolo());
+                integracao.setProtocoloExterno(response.protocolo());
                 integracao.setMensagemErro(null);
                 integracao.setDataResposta(LocalDateTime.now());
             } catch (Exception e) {
