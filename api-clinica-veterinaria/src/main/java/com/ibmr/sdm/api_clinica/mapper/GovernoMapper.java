@@ -18,9 +18,11 @@ public interface GovernoMapper {
     @Mapping(target = "dataVacinaAntirrabica", source = "vacina.dataAplicacao")
     @Mapping(target = "nomeVacina", source = "vacina.nomeVacina")
     @Mapping(target = "fabricante", source = "vacina.fabricante")
-    @Mapping(target = "numeroLote", source = "vacina.numeroLote") // Correção aplicada aqui
+    @Mapping(target = "numeroLote", source = "vacina.numeroLote")
 
-    @Mapping(target = "nomeVeterinario", source = "vacina.veterinario.nomeCompleto")
-    @Mapping(target = "crmvVeterinario", source = "vacina.veterinario.crmvNumero")
+    @Mapping(target = "cpfVeterinario", source = "vacina.veterinario.cpf")
+    @Mapping(target = "crmvNumero", source = "vacina.veterinario.crmvNumero")
+    @Mapping(target = "crmvUf", source = "vacina.veterinario.crmvUf")
+    @Mapping(target = "clinica", constant = "VetCare")
     GovernoRequestDto toRequestDto(Animal animal, Vacina vacina, String codigoMicrochip);
 }

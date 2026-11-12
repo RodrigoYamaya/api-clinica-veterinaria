@@ -40,7 +40,7 @@ def receber_vacinacao(db: Session, data: VacinacaoIn, idempotency_key: str):
     try:
         obj = vacinacao_repository.salvar_vacinacao(db, obj)
     except IntegrityError:
-        # Tratamento seguro caso duas requisições idênticas cheguem no exato mesmo milissegundo; evitar dados duplicados
+        # Tratamento seguro caso duas requisições idênticas cheguem no exato mesmo milissegundo; evitar dados duplicados. o famoso TMR um processo so pode ser executado por vez!!!
         existente = vacinacao_repository.buscar_por_idempotency_key(db, idempotency_key)
         if not existente:
             raise HTTPException(status_code=409, detail="Conflito ao registrar operação; tente consultar novamente")
