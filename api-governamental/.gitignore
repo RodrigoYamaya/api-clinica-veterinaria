@@ -1,0 +1,12 @@
+# Ambientes virtuais
+venv/
+env/
+.env
+
+# Cache do Python
+__pycache__/
+*.pyc
+
+# Banco de dados local (não deve ir pro Git)
+*.db
+governo_simulado.db

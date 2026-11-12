@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49c280f8-8426-4ffc-a97f-f0f08ee358e0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/api-clinica-veterinaria/src/main/java/com/ibmr/sdm/api_clinica/config/CorsConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-clinica-veterinaria/src/main/java/com/ibmr/sdm/api_clinica/service/TutorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-clinica-veterinaria/src/main/java/com/ibmr/sdm/api_clinica/service/TutorService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front end/VetCare-Sistema/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/front end/VetCare-Sistema/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front end/login.html" beforeDir="false" />
-    </list>
+    <list default="true" id="49c280f8-8426-4ffc-a97f-f0f08ee358e0" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -181,7 +175,7 @@
       <updated>1794339244687</updated>
       <workItem from="1794339255044" duration="5326000" />
       <workItem from="1794354292621" duration="489000" />
-      <workItem from="1794356645477" duration="5843000" />
+      <workItem from="1794356645477" duration="6113000" />
     </task>
     <servers />
   </component>
