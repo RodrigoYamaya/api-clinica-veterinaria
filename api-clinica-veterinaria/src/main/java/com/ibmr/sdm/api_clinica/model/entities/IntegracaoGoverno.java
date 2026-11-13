@@ -1,6 +1,7 @@
 package com.ibmr.sdm.api_clinica.model.entities;
 
 import com.ibmr.sdm.api_clinica.model.enums.SituacaoIntegracao;
+import com.ibmr.sdm.api_clinica.model.enums.SituacaoVacina;
 import com.ibmr.sdm.api_clinica.model.enums.TipoOperacaoIntegracao;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -38,7 +39,7 @@ public class IntegracaoGoverno {
     private String chaveIdempotencia;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "situacao", nullable = false)
+    @Column(name = "situacao", nullable = false, columnDefinition = "VARCHAR(50)")
     private SituacaoIntegracao situacao = SituacaoIntegracao.PENDENTE;
 
     @Column(name = "data_solicitacao", nullable = false, updatable = false)

@@ -63,7 +63,7 @@ public class Vacina {
     private String observacoes;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "situacao", columnDefinition = "VARCHAR(50)")
     @Builder.Default
     private SituacaoVacina situacao = SituacaoVacina.AGENDADA;
 }

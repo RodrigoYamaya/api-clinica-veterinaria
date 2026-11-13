@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/consultas")
-@CrossOrigin(origins = "*")
 public class ConsultaController {
 
     private final ConsultaService consultaService;

@@ -18,7 +18,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/animais")
-@CrossOrigin(origins = "*")
 public class AnimalController {
 
     @Autowired

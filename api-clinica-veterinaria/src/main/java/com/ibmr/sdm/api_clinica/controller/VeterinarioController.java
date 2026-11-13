@@ -16,7 +16,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/veterinarios")
-@CrossOrigin(originPatterns = "*")
 public class VeterinarioController {
 
     @Autowired
