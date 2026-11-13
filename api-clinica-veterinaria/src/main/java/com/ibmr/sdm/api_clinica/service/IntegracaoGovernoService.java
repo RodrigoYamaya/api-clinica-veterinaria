@@ -98,16 +98,15 @@ public class IntegracaoGovernoService {
         GovernoRequestDto pacoteEnvio = governoMapper.toRequestDto(animal, vacina, codigoMicrochip);
 
         try {
-            GovernoResponseDto response;
-
             if (dto.tipoOperacao() == TipoOperacaoIntegracao.VACINA_ANTIRRABICA) {
-                response = governoClient.enviarVacinaAntirrabica(dto.chaveIdempotencia(), pacoteEnvio);
+                IntegracaoGovernoResponseDto response = governoClient.enviarVacinaAntirrabica(dto.chaveIdempotencia(), dto);
+                integracao.setProtocoloExterno(response.protocoloExterno());
             } else {
-                response = governoClient.atualizarAnimal(codigoMicrochip, pacoteEnvio);
+                GovernoResponseDto response = governoClient.atualizarAnimal(codigoMicrochip, pacoteEnvio);
+                integracao.setProtocoloExterno(response.protocolo());
             }
 
             integracao.setSituacao(SituacaoIntegracao.CONFIRMADA);
-            integracao.setProtocoloExterno(response.protocolo());
             integracao.setDataResposta(LocalDateTime.now());
             integracao.setMensagemErro(null);
 
@@ -143,16 +142,21 @@ public class IntegracaoGovernoService {
                         codigoMicrochip
                 );
 
-                GovernoResponseDto response;
-
                 if (integracao.getTipoOperacao() == TipoOperacaoIntegracao.VACINA_ANTIRRABICA) {
-                    response = governoClient.enviarVacinaAntirrabica(integracao.getChaveIdempotencia(), pacoteEnvio);
+                    IntegracaoGovernoRequestDto dtoReenvio = new IntegracaoGovernoRequestDto(
+                            integracao.getAnimal().getId(),
+                            integracao.getVacina() != null ? integracao.getVacina().getId() : null,
+                            integracao.getTipoOperacao(),
+                            integracao.getChaveIdempotencia()
+                    );
+                    IntegracaoGovernoResponseDto response = governoClient.enviarVacinaAntirrabica(integracao.getChaveIdempotencia(), dtoReenvio);
+                    integracao.setProtocoloExterno(response.protocoloExterno());
                 } else {
-                    response = governoClient.atualizarAnimal(codigoMicrochip, pacoteEnvio);
+                    GovernoResponseDto response = governoClient.atualizarAnimal(codigoMicrochip, pacoteEnvio);
+                    integracao.setProtocoloExterno(response.protocolo());
                 }
 
                 integracao.setSituacao(SituacaoIntegracao.CONFIRMADA);
-                integracao.setProtocoloExterno(response.protocolo());
                 integracao.setMensagemErro(null);
                 integracao.setDataResposta(LocalDateTime.now());
             } catch (Exception e) {
