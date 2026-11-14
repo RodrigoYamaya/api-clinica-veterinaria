@@ -10,8 +10,8 @@ class AnimalIn(BaseModel):
     sexo: str | None = None
     cor: str | None = None
     tutorNome: str | None = None
-    cpfTutor: str | None = Field(default=None, pattern=r"^\d{11}$")
-    origem: str = "VetCare"
+    cpfTutor: str | None = None
+    origem: str | None = "VetCare"
 
 class AnimalOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)

@@ -6,22 +6,22 @@ from database.connection import Base
 class VacinacaoGoverno(Base):
     __tablename__ = "vacinacoes_governo"
     __table_args__ = (UniqueConstraint("idempotency_key", name="uq_governo_idempotency_key"),)
-    
+
     id: Mapped[int] = mapped_column(primary_key=True)
     protocolo: Mapped[str] = mapped_column(String(40), unique=True, index=True)
-    animal_id: Mapped[int] = mapped_column(ForeignKey("animais_governo.id"))
-    microchip: Mapped[str] = mapped_column(String(30), index=True)
-    cpf_veterinario: Mapped[str] = mapped_column(String(11))
-    crmv_numero: Mapped[str] = mapped_column(String(30))
-    crmv_uf: Mapped[str] = mapped_column(String(2))
+
+    # Opcional: vincula se o animal já existir na base do governo, mas não bloqueia o registro (Regra 2)
+    animal_id: Mapped[int | None] = mapped_column(ForeignKey("animais_governo.id"), nullable=True)
+
+    # Os 7 campos obrigatórios da comunicação antirrábica que definimos no dto clinica veterinaria;
+    codigo_microchip: Mapped[str] = mapped_column(String(30), index=True)
+    nome_animal: Mapped[str] = mapped_column(String(100))
+    data_aplicacao: Mapped[str] = mapped_column(String(10))
     nome_vacina: Mapped[str] = mapped_column(String(120))
-    fabricante: Mapped[str | None] = mapped_column(String(120))
-    lote: Mapped[str | None] = mapped_column(String(80))
-    data_aplicacao: Mapped[str | None] = mapped_column(String(10))
-    proxima_dose: Mapped[str | None] = mapped_column(String(10))
-    dose: Mapped[str | None] = mapped_column(String(60))
-    via_aplicacao: Mapped[str | None] = mapped_column(String(60))
-    clinica: Mapped[str] = mapped_column(String(120), default="VetCare")
+    fabricante: Mapped[str] = mapped_column(String(120))
+    numero_lote: Mapped[str] = mapped_column(String(80))
+    veterinario_responsavel: Mapped[str] = mapped_column(String(150))
+
     idempotency_key: Mapped[str] = mapped_column(String(150), nullable=False)
     recebido_em: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     resposta_json: Mapped[str | None] = mapped_column(Text)
