@@ -4,8 +4,9 @@ import com.ibmr.sdm.api_clinica.Exceptions.RecursoNaoEncontradoException;
 import com.ibmr.sdm.api_clinica.client.GovernoClient;
 import com.ibmr.sdm.api_clinica.mapper.GovernoMapper;
 import com.ibmr.sdm.api_clinica.mapper.IntegracaoGovernoMapper;
-import com.ibmr.sdm.api_clinica.model.dto.GovernoRequestDto;
-import com.ibmr.sdm.api_clinica.model.dto.GovernoResponseDto;
+import com.ibmr.sdm.api_clinica.model.dto.GovernoAnimalRequestDto;
+import com.ibmr.sdm.api_clinica.model.dto.GovernoAnimalResponseDto;
+import com.ibmr.sdm.api_clinica.model.dto.GovernoVacinaRequestDto;
 import com.ibmr.sdm.api_clinica.model.dto.IntegracaoGovernoRequestDto;
 import com.ibmr.sdm.api_clinica.model.dto.IntegracaoGovernoResponseDto;
 import com.ibmr.sdm.api_clinica.model.entities.Animal;
@@ -35,7 +36,7 @@ public class IntegracaoGovernoService {
     private final VacinaRepository vacinaRepository;
     private final VinculoMicrochipRepository microchipRepository;
     private final GovernoMapper governoMapper;
-    private final GovernoClient governoClient; // Agora injetado!
+    private final GovernoClient governoClient;
 
     public IntegracaoGovernoService(
             IntegracaoGovernoRepository integracaoRepository,
@@ -44,7 +45,7 @@ public class IntegracaoGovernoService {
             VacinaRepository vacinaRepository,
             VinculoMicrochipRepository microchipRepository,
             GovernoMapper governoMapper,
-            GovernoClient governoClient) { // Injetado no construtor
+            GovernoClient governoClient) {
         this.integracaoRepository = integracaoRepository;
         this.integracaoMapper = integracaoMapper;
         this.animalRepository = animalRepository;
@@ -95,17 +96,18 @@ public class IntegracaoGovernoService {
         integracao.setDataSolicitacao(LocalDateTime.now());
         integracao = integracaoRepository.saveAndFlush(integracao);
 
-        GovernoRequestDto pacoteEnvio = governoMapper.toRequestDto(animal, vacina, codigoMicrochip);
-
         try {
+            GovernoAnimalResponseDto response;
+
             if (dto.tipoOperacao() == TipoOperacaoIntegracao.VACINA_ANTIRRABICA) {
-                IntegracaoGovernoResponseDto response = governoClient.enviarVacinaAntirrabica(dto.chaveIdempotencia(), dto);
-                integracao.setProtocoloExterno(response.protocoloExterno());
+                GovernoVacinaRequestDto pacoteVacina = governoMapper.toVacinaRequestDto(animal, vacina, codigoMicrochip);
+                response = governoClient.enviarVacinaAntirrabica(dto.chaveIdempotencia(), pacoteVacina);
             } else {
-                GovernoResponseDto response = governoClient.atualizarAnimal(codigoMicrochip, pacoteEnvio);
-                integracao.setProtocoloExterno(response.protocolo());
+                GovernoAnimalRequestDto pacoteAnimal = governoMapper.toAnimalRequestDto(animal, codigoMicrochip);
+                response = governoClient.atualizarAnimal(codigoMicrochip, pacoteAnimal);
             }
 
+            integracao.setProtocoloExterno(response.protocolo());
             integracao.setSituacao(SituacaoIntegracao.CONFIRMADA);
             integracao.setDataResposta(LocalDateTime.now());
             integracao.setMensagemErro(null);
@@ -136,26 +138,24 @@ public class IntegracaoGovernoService {
                 String codigoMicrochip = microchipRepository.findByAnimalIdAndDataFimIsNull(integracao.getAnimal().getId())
                         .map(VinculoMicrochip::getCodigoMicrochip).orElse(null);
 
-                GovernoRequestDto pacoteEnvio = governoMapper.toRequestDto(
-                        integracao.getAnimal(),
-                        integracao.getVacina(),
-                        codigoMicrochip
-                );
+                GovernoAnimalResponseDto response;
 
                 if (integracao.getTipoOperacao() == TipoOperacaoIntegracao.VACINA_ANTIRRABICA) {
-                    IntegracaoGovernoRequestDto dtoReenvio = new IntegracaoGovernoRequestDto(
-                            integracao.getAnimal().getId(),
-                            integracao.getVacina() != null ? integracao.getVacina().getId() : null,
-                            integracao.getTipoOperacao(),
-                            integracao.getChaveIdempotencia()
+                    GovernoVacinaRequestDto pacoteVacina = governoMapper.toVacinaRequestDto(
+                            integracao.getAnimal(),
+                            integracao.getVacina(),
+                            codigoMicrochip
                     );
-                    IntegracaoGovernoResponseDto response = governoClient.enviarVacinaAntirrabica(integracao.getChaveIdempotencia(), dtoReenvio);
-                    integracao.setProtocoloExterno(response.protocoloExterno());
+                    response = governoClient.enviarVacinaAntirrabica(integracao.getChaveIdempotencia(), pacoteVacina);
                 } else {
-                    GovernoResponseDto response = governoClient.atualizarAnimal(codigoMicrochip, pacoteEnvio);
-                    integracao.setProtocoloExterno(response.protocolo());
+                    GovernoAnimalRequestDto pacoteAnimal = governoMapper.toAnimalRequestDto(
+                            integracao.getAnimal(),
+                            codigoMicrochip
+                    );
+                    response = governoClient.atualizarAnimal(codigoMicrochip, pacoteAnimal);
                 }
 
+                integracao.setProtocoloExterno(response.protocolo());
                 integracao.setSituacao(SituacaoIntegracao.CONFIRMADA);
                 integracao.setMensagemErro(null);
                 integracao.setDataResposta(LocalDateTime.now());

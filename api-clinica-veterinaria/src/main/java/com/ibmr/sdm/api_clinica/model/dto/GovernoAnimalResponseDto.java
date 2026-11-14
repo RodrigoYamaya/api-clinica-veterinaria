@@ -1,6 +1,6 @@
 package com.ibmr.sdm.api_clinica.model.dto;
 
-public record GovernoResponseDto(
+public record GovernoAnimalResponseDto(
         boolean sucesso,
         boolean duplicada,
         String protocolo,

@@ -1,9 +1,6 @@
 package com.ibmr.sdm.api_clinica.client;
 
-import com.ibmr.sdm.api_clinica.model.dto.GovernoRequestDto;
-import com.ibmr.sdm.api_clinica.model.dto.GovernoResponseDto;
-import com.ibmr.sdm.api_clinica.model.dto.IntegracaoGovernoRequestDto;
-import com.ibmr.sdm.api_clinica.model.dto.IntegracaoGovernoResponseDto;
+import com.ibmr.sdm.api_clinica.model.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,17 +8,17 @@ import org.springframework.web.bind.annotation.*;
 public interface GovernoClient {
 
     @PostMapping("/api/governo/animais")
-    GovernoResponseDto cadastrarAnimal(@RequestBody GovernoRequestDto request);
+    GovernoAnimalResponseDto cadastrarAnimal(@RequestBody GovernoAnimalRequestDto request);
 
     @PutMapping("/api/governo/animais/{microchip}")
-    GovernoResponseDto atualizarAnimal(
+    GovernoAnimalResponseDto atualizarAnimal(
             @PathVariable("microchip") String microchip,
-            @RequestBody GovernoRequestDto request
+            @RequestBody GovernoAnimalRequestDto request
     );
 
     @PostMapping("/api/governo/vacinacoes-antirrabicas")
-    IntegracaoGovernoResponseDto enviarVacinaAntirrabica(
+    GovernoAnimalResponseDto enviarVacinaAntirrabica(
             @RequestHeader("Idempotency-Key") String idempotencyKey,
-            @RequestBody IntegracaoGovernoRequestDto request
+            @RequestBody GovernoVacinaRequestDto request
     );
 }
